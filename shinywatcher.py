@@ -15,6 +15,7 @@ config_raw.read("config.ini")
 
 # CONFIG
 config["wh"] = config_raw.get("Config", "WEBHOOK_URL")
+config["tz"] = config_raw.getint("Config", "TIMEZONE_OFFSET")
 config["workers"] = config_raw.get("Config", "ONLY_SHOW_WORKERS")
 config["mons"] = config_raw.get("Config", "EXCLUDE_MONS")
 config["mons"] = list(config["mons"].split(","))
@@ -63,7 +64,7 @@ def check_shinies():
         mon_img = f"https://raw.githubusercontent.com/Plaryu/PJSsprites/master/pokemon_icon_{str(mon_id).zfill(3)}_00.png"
 
         iv = int(round((((atk + defe + sta) / 45) * 100), 0))
-        etime = etime + timedelta(hours=1)
+        etime = etime + timedelta(hours=config['tz'])
         end = etime.strftime("%H:%M:%S")
         td = etime - datetime.now()
         timeleft = divmod(td.seconds, 60)
