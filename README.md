@@ -1,6 +1,6 @@
 # Shiny Watcher
 
-[Discord](https://discord.gg/cMZs5tk)
+Get support on this [Discord Server](https://discord.gg/cMZs5tk)
 
 Shiny Watcher checks your DB for active Shinies and then sends a notification to Discord if it finds any. It allows to filter out Pokemon and Workers, as well as connect a Login E-Mail for every worker.
 
