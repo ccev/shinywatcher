@@ -1,0 +1,11 @@
+[Config]
+WEBHOOK_URL = 
+ONLY_SHOW_WORKERS = 'atv01','atv02','samsung1'
+EXCLUDE_MONS = 1,4,7
+
+[DB]
+HOST = 0.0.0.0
+USER = 
+PASSWORD = 
+DB_NAME = 
+PORT = 3306
