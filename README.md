@@ -1,5 +1,7 @@
 # Shiny Watcher
 
+[Discord](https://discord.gg/cMZs5tk)
+
 Shiny Watcher checks your DB for active Shinies and then sends a notification to Discord if it finds any. It allows to filter out Pokemon and Workers, as well as connect a Login E-Mail for every worker.
 
 Notifications will always be: `Name (IV%) until Time (time left)\nWorker name (account/email)`. The coordinates are in an embed so you can copy them by only holding them tapped for ~2 seconds on an Android device. Fast and easy
