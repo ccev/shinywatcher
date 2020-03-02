@@ -4,6 +4,9 @@ TIMEZONE_OFFSET = +1
 ONLY_SHOW_WORKERS = 'atv01','atv02','samsung1'
 EXCLUDE_MONS = 1,4,7
 
+OS = android
+# android/ios
+
 [DB]
 HOST = 0.0.0.0
 USER = 

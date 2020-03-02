@@ -19,6 +19,7 @@ config["tz"] = config_raw.getint("Config", "TIMEZONE_OFFSET")
 config["workers"] = config_raw.get("Config", "ONLY_SHOW_WORKERS")
 config["mons"] = config_raw.get("Config", "EXCLUDE_MONS")
 config["mons"] = list(config["mons"].split(","))
+config["os"] = config_raw.get("Config", "OS")
 
 # DB
 config["db_dbname"] = config_raw.get("DB", "DB_NAME")
@@ -63,6 +64,8 @@ def check_shinies():
                 mon_name = aname.title()
         mon_img = f"https://raw.githubusercontent.com/Plaryu/PJSsprites/master/pokemon_icon_{str(mon_id).zfill(3)}_00.png"
 
+        print(f"found shiny {mon_name}")
+
         iv = int(round((((atk + defe + sta) / 45) * 100), 0))
         etime = etime + timedelta(hours=config['tz'])
         end = etime.strftime("%H:%M:%S")
@@ -72,19 +75,37 @@ def check_shinies():
         email = ""
         email = worker_mails[worker]
 
-        data = {
-            "username": mon_name,
-            "avatar_url": mon_img,
-            "content": f"**{mon_name}** ({iv}%) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
-            "embeds": [
-                {
-                "description": f"{lat},{lon}"
-                }
-            ]
-        }
-        result = requests.post(config['wh'], json=data)
-        print(f"found shiny {mon_name}")
-        print(result)
+        if config["os"] == "android":
+            data = {
+                "username": mon_name,
+                "avatar_url": mon_img,
+                "content": f"**{mon_name}** ({iv}%) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
+                "embeds": [
+                    {
+                    "description": f"{lat},{lon}"
+                    }
+                ]
+            }
+            result = requests.post(config['wh'], json=data)
+            print(result)
+
+        elif config['os'] == "ios":
+            data = {
+                "username": mon_name,
+                "avatar_url": mon_img,
+                "content": f"**{mon_name}** ({iv}%) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})"
+            }
+            result = requests.post(config['wh'], json=data)
+            print(result)
+
+            time.sleep(1)
+            data = {
+                "username": mon_name,
+                "avatar_url": mon_img,
+                "content": f"```{lat},{lon}```"
+            }
+            result = requests.post(config['wh'], json=data)
+            print(result)
 
         with open("cache.txt", "a") as f:
             f.write(f"{enc_id}\n")
