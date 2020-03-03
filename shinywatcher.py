@@ -19,6 +19,7 @@ config["tz"] = config_raw.getint("Config", "TIMEZONE_OFFSET")
 config["workers"] = config_raw.get("Config", "ONLY_SHOW_WORKERS")
 config["mons"] = config_raw.get("Config", "EXCLUDE_MONS")
 config["mons"] = list(config["mons"].split(","))
+config["locale"] = config_raw.get("Config", "LANGUAGE")
 config["os"] = config_raw.get("Config", "OS")
 
 # DB
@@ -42,7 +43,7 @@ worker_filter = ""
 if not config['workers'] == "":
     worker_filter = f"AND t.worker in ({config['workers']})"
 
-mon_names = ast.literal_eval(open(f"mons.txt", "r").read())
+mon_names = ast.literal_eval(open(f"locale/{config['locale']}-mons.txt", "r").read())
 
 with open("workers.json", "r") as f:
     worker_mails = json.load(f)
