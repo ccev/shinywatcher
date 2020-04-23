@@ -77,19 +77,15 @@ def check_shinies():
         email = worker_mails[worker]
 
         if cp_multiplier < 0.734:
-            pokemon_level = (
-                58.35178527 * cp_multiplier * cp_multiplier
-                - 2.838007664 * cp_multiplier
-                + 0.8539209906)
+            mon_level = (58.35178527 * cp_multiplier * cp_multiplier - 2.838007664 * cp_multiplier + 0.8539209906)
         else:
-            pokemon_level = 171.0112688 * cp_multiplier - 95.20425243
-        pokemon_level = round(pokemon_level)
+            mon_level = 171.0112688 * cp_multiplier - 95.20425243 mon_level = round(mon_level)
 
         if config["os"] == "android":
             data = {
                 "username": mon_name,
                 "avatar_url": mon_img,
-                "content": f"**{mon_name}** ({iv}%, lv {pokemon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
+                "content": f"**{mon_name}** ({iv}%, lv{mon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
                 "embeds": [
                     {
                     "description": f"{lat},{lon}"
@@ -103,7 +99,7 @@ def check_shinies():
             data = {
                 "username": mon_name,
                 "avatar_url": mon_img,
-                "content": f"**{mon_name}** ({iv}%, lv {pokemon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})"
+                "content": f"**{mon_name}** ({iv}%, lv{mon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})"
             }
             result = requests.post(config['wh'], json=data)
             print(result)
