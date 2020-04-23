@@ -52,9 +52,9 @@ def get_cache():
     return open("cache.txt", "r").read().splitlines()
 
 def check_shinies():
-    cursor.execute(f"SELECT encounter_id, pokemon_id, disappear_time, individual_attack, individual_defense, individual_stamina, longitude, latitude, t.worker FROM pokemon LEFT JOIN trs_stats_detect_raw t ON encounter_id = CAST(t.type_id AS UNSIGNED INTEGER) WHERE disappear_time > utc_timestamp() AND t.is_shiny = 1 {worker_filter} ORDER BY pokemon_id DESC, disappear_time DESC")
+    cursor.execute(f"SELECT encounter_id, pokemon_id, disappear_time, individual_attack, individual_defense, individual_stamina, cp_multiplier, longitude, latitude, t.worker FROM pokemon LEFT JOIN trs_stats_detect_raw t ON encounter_id = CAST(t.type_id AS UNSIGNED INTEGER) WHERE disappear_time > utc_timestamp() AND t.is_shiny = 1 {worker_filter} ORDER BY pokemon_id DESC, disappear_time DESC")
     results = cursor.fetchall()
-    for enc_id, mon_id, etime, atk, defe, sta, lon, lat, worker in results:
+    for enc_id, mon_id, etime, atk, defe, sta, cp_multiplier, lon, lat, worker in results:
         if str(enc_id) in get_cache():
             continue
         if mon_id in config['mons']:
@@ -76,11 +76,20 @@ def check_shinies():
         email = ""
         email = worker_mails[worker]
 
+        if cp_multiplier < 0.734:
+            pokemon_level = (
+                58.35178527 * cp_multiplier * cp_multiplier
+                - 2.838007664 * cp_multiplier
+                + 0.8539209906)
+        else:
+            pokemon_level = 171.0112688 * cp_multiplier - 95.20425243
+        pokemon_level = round(pokemon_level)
+
         if config["os"] == "android":
             data = {
                 "username": mon_name,
                 "avatar_url": mon_img,
-                "content": f"**{mon_name}** ({iv}%) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
+                "content": f"**{mon_name}** ({iv}%, lv {pokemon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})",
                 "embeds": [
                     {
                     "description": f"{lat},{lon}"
@@ -94,7 +103,7 @@ def check_shinies():
             data = {
                 "username": mon_name,
                 "avatar_url": mon_img,
-                "content": f"**{mon_name}** ({iv}%) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})"
+                "content": f"**{mon_name}** ({iv}%, lv {pokemon_level}) until **{end}** ({timeleft[0]}m {timeleft[1]}s)\n{worker} ({email})"
             }
             result = requests.post(config['wh'], json=data)
             print(result)
