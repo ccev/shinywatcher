@@ -77,7 +77,7 @@ def check_shinies():
         email = worker_mails[worker]
 
         if cp_multiplier < 0.734:
-            mon_level = 58.35178527 * cp_multiplier * cp_multiplier - 2.838007664 * cp_multiplier + 0.8539209906
+            mon_level = round(58.35178527 * cp_multiplier * cp_multiplier - 2.838007664 * cp_multiplier + 0.8539209906)
         else:
             mon_level = round(171.0112688 * cp_multiplier - 95.20425243)
 
