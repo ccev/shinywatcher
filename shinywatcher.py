@@ -52,7 +52,7 @@ def get_cache():
     return open("cache.txt", "r").read().splitlines()
 
 def check_shinies():
-    cursor.execute(f"SELECT encounter_id, pokemon_id, disappear_time, individual_attack, individual_defense, individual_stamina, cp_multiplier, longitude, latitude, t.worker FROM pokemon LEFT JOIN trs_stats_detect_mon_raw t ON encounter_id = t.encounter_id WHERE disappear_time > utc_timestamp() AND t.is_shiny = 1 {worker_filter} ORDER BY pokemon_id DESC, disappear_time DESC")
+    cursor.execute(f"SELECT pokemon.encounter_id, pokemon_id, disappear_time, individual_attack, individual_defense, individual_stamina, cp_multiplier, longitude, latitude, t.worker FROM pokemon LEFT JOIN trs_stats_detect_mon_raw t ON pokemon.encounter_id = t.encounter_id WHERE disappear_time > utc_timestamp() AND t.is_shiny = 1 {worker_filter} ORDER BY pokemon_id DESC, disappear_time DESC")
     results = cursor.fetchall()
     for enc_id, mon_id, etime, atk, defe, sta, cp_multiplier, lon, lat, worker in results:
         if str(enc_id) in get_cache():
