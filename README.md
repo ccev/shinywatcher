@@ -1,6 +1,10 @@
 # Shiny Watcher
 
-Get support on this [Discord Server](https://discord.gg/cMZs5tk)
+**Please note that Shiny Watcher is no standalone project. If you want this to work, you need to set up a whole MAD scanner. I recommend to only use this if you already have MAD running and just want to know about shinies it's finding.**
+
+- Get support on this [Discord Server](https://discord.gg/cMZs5tk)
+- If you want to use Shiny Watcher as a MAD Plugin, check out [this fork](https://github.com/GhostTalker/shinywatcher) - it's pretty easy to get it running
+- If you use RDM, there's probably an easier solution to this since shiny data is sent via webhook
 
 Shiny Watcher checks your DB for active Shinies and then sends a notification to Discord if it finds any. It allows to filter out Pokemon and Workers as well as connect a Login E-Mail to every worker.
 
